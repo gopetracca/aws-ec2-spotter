@@ -25,7 +25,7 @@ export APIBIN=./ec2-api-tools-*/bin
 export EC2_HOME=$(ls -d ./ec2-api-tools-*)
 
 # export JAVA_HOME=/usr/
-export JAVA_HOME=/usr/lib/jvm/default-java
+export JAVA_HOME=/usr/
 
 export ARCH=`uname -i`
 
