@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # "Phase 2" this script is invoked inside of the spot VM at boot time to find the root volume.
+set -x
 
 if ! [ "x$1" = "x--force" ]
 then 

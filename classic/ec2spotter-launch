@@ -47,8 +47,8 @@ cd aws-ec2-spotter/
 git checkout dev
 
 cd classic
-./ec2spotter-setup-ubuntu 2>&1 > /tmp/spotter-setup.log
-./ec2spotter-remount-root --force ${ROOT_VOL_NAME} $ec2spotter_elastic_ip 2>&1 > /tmp/spotter-mount.log
+./ec2spotter-setup-ubuntu &> /tmp/spotter-setup.log
+./ec2spotter-remount-root --force ${ROOT_VOL_NAME} $ec2spotter_elastic_ip &> /tmp/spotter-mount.log
 EOF
 
 userData=$(base64 user-data.tmp | tr -d '\n');
