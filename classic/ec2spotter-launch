@@ -63,6 +63,9 @@ cat >specs.tmp <<EOF
   "IamInstanceProfile": {
     "Arn": "arn:aws:iam::191445022197:instance-profile/ec2-role-admin"
   },
+  "Placement": {
+    "AvailabilityZone": "$LAUNCH_ZONE"
+  },
   "BlockDeviceMappings": [
     {
       "DeviceName" : "/dev/sda1",
