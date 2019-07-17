@@ -58,6 +58,9 @@ cat >specs.tmp <<EOF
   "InstanceType": "$ec2spotter_instance_type",
   "ImageId" : "$ec2spotter_preboot_image_id",
   "UserData" : "${userData}",
+  "IamInstanceProfile": {
+    "Arn": "arn:aws:iam::191445022197:role/ec2-role-admin"
+  },
   "BlockDeviceMappings": [
     {
       "DeviceName" : "/dev/sda1",
@@ -66,9 +69,7 @@ cat >specs.tmp <<EOF
         "DeleteOnTermination": true,
         "VolumeType" : "standard"
       }
-    },
-  "IamInstanceProfile": {
-    "Arn": "arn:aws:iam::191445022197:role/ec2-role-admin"
+    }
   ]
 }
 EOF
