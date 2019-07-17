@@ -13,10 +13,10 @@ PUB_KEY=$(wget -q -O - http://169.254.169.254/latest/meta-data/public-keys | awk
 
 echo "ROOT_VOL_NAME=${ROOT_VOL_NAME}; LAUNCH_ZONE=${LAUNCH_ZONE}; LAUNCH_REGION=${LAUNCH_REGION}; PUB_KEY=${PUB_KEY}"
 
-export AWS_CREDENTIAL_FILE=/root/.aws.creds
-. /root/.aws.creds
-export AWS_ACCESS_KEY=$AWSAccessKeyId
-export AWS_SECRET_KEY=$AWSSecretKey
+# export AWS_CREDENTIAL_FILE=/root/.aws.creds
+# . /root/.aws.creds
+# export AWS_ACCESS_KEY=$AWSAccessKeyId
+# export AWS_SECRET_KEY=$AWSSecretKey
 
 aws ec2 describe-volumes \
 	--filters Name=tag-key,Values="Name" Name=tag-value,Values="$ROOT_VOL_NAME" \
@@ -36,17 +36,17 @@ fi
 
 cat >user-data.tmp <<EOF
 #!/bin/sh
-echo AWSAccessKeyId=$AWSAccessKeyId > /root/.aws.creds
-echo AWSSecretKey=$AWSSecretKey >> /root/.aws.creds
+# echo AWSAccessKeyId=$AWSAccessKeyId > /root/.aws.creds
+# echo AWSSecretKey=$AWSSecretKey >> /root/.aws.creds
 
-apt-get install -y git
+yum install -y git
 
 cd /root
-git clone https://github.com/bombadiltom/ec2-spotter.git
+git clone https://github.com/gopetracca/aws-ec2-spotter.git
 
 cd ec2-spotter/classic
-./ec2spotter-setup
-./ec2spotter-remount-root --force ${ROOT_VOL_NAME} $ec2spotter_elastic_ip
+./ec2spotter-setup-centos 2>&1 > /tmp/spotter-setup.log
+./ec2spotter-remount-root --force ${ROOT_VOL_NAME} $ec2spotter_elastic_ip 2>&1 > /tmp/spotter-mount.log
 EOF
 
 userData=$(base64 user-data.tmp | tr -d '\n');
@@ -65,7 +65,9 @@ cat >specs.tmp <<EOF
         "DeleteOnTermination": true,
         "VolumeType" : "standard"
       }
-    }
+    },
+  "IamInstanceProfile": {
+    "Arn": "arn:aws:iam::191445022197:role/ec2-role-admin"
   ]
 }
 EOF
