@@ -46,7 +46,7 @@ git clone https://github.com/gopetracca/aws-ec2-spotter.git
 cd aws-ec2-spotter/
 git checkout dev
 
-cd aws-ec2-spotter/classic
+cd classic
 ./ec2spotter-setup-centos 2>&1 > /tmp/spotter-setup.log
 ./ec2spotter-remount-root --force ${ROOT_VOL_NAME} $ec2spotter_elastic_ip 2>&1 > /tmp/spotter-mount.log
 EOF
@@ -59,6 +59,7 @@ cat >specs.tmp <<EOF
   "InstanceType": "$ec2spotter_instance_type",
   "ImageId" : "$ec2spotter_preboot_image_id",
   "UserData" : "${userData}",
+  "SecurityGroupIds": [ "sg-0bccb9231bbbdb1e8" ],
   "IamInstanceProfile": {
     "Arn": "arn:aws:iam::191445022197:instance-profile/ec2-role-admin"
   },
