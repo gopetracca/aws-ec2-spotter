@@ -43,7 +43,8 @@ yum install -y git
 
 cd /root
 git clone https://github.com/gopetracca/aws-ec2-spotter.git
-git checkeout dev
+cd aws-ec2-spotter/
+git checkout dev
 
 cd ec2-spotter/classic
 ./ec2spotter-setup-centos 2>&1 > /tmp/spotter-setup.log
@@ -59,7 +60,7 @@ cat >specs.tmp <<EOF
   "ImageId" : "$ec2spotter_preboot_image_id",
   "UserData" : "${userData}",
   "IamInstanceProfile": {
-    "Arn": "arn:aws:iam::191445022197:role/ec2-role-admin"
+    "Arn": "arn:aws:iam::191445022197:instance-profile/ec2-role-admin"
   },
   "BlockDeviceMappings": [
     {
